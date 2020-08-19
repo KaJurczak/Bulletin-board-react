@@ -1,5 +1,11 @@
 /* selectors */
 export const getAll = ({posts}) => posts.data;
+export const getPost = ({posts}, postID) => {
+  const post = posts.data.filter(post => post.id === parseInt(postID));
+  return post[0];
+};
+export const getUsers = ({users}) => users;
+
 
 /* action name creator */
 const reducerName = 'posts';
