@@ -5,6 +5,7 @@ export const getPost = ({posts}, postID) => {
   return post[0];
 };
 export const getUsers = ({users}) => users;
+export const currentUser = ({currentUser}) => currentUser.id;
 
 
 /* action name creator */

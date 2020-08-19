@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
-import { getAll, getUsers } from '../../../redux/postsRedux';
+import { getAll, currentUser } from '../../../redux/postsRedux';
 // import { getUsers } from '../../../redux/userRedux';
 
 
@@ -14,46 +14,40 @@ import { Link } from 'react-router-dom';
 import { Button, ListItem, List } from '@material-ui/core';
 
 
-const Component = ({className, children, posts, users}) => (
-  <div className={clsx(className, styles.root)}>
-    {/* <h2>Homepage</h2> */}
-    {/* {children} */}
-    <List>
-      {posts.map(post => (
-        <ListItem key={post.id} className={styles.root} component={Link} to={`/post/${post.id}`} >
-          {post.title}
-        </ListItem>
-      ))}
-    </List>
+const Component = ({className, children, posts, currentUser}) => {
 
-    <Button component={Link} to={`/post/add`} variant="outlined" color="primary" >
-      Add new poster
-    </Button>
+  const newPost = currentUser ?
+    (<Button component={Link} to={`/post/add`} variant="outlined" color="primary" >
+      Add new post
+    </Button>)
+    : '' ;
 
-    {/* {users.map(
-      user => {
-        if(user.logged===true){
-          return( 
-            <Button key={user.id} component={Link} to={`/post/add`} variant="outlined" color="primary" >
-              Add new poster
-            </Button>
-          );
-        }
-      }
-    )} */}
-  </div>
-);
+  return(
+    <div className={clsx(className, styles.root)}>
+      {/* <h2>Homepage</h2> */}
+      {/* {children} */}
+      <List>
+        {posts.map(post => (
+          <ListItem key={post.id} className={styles.root} component={Link} to={`/post/${post.id}`} >
+            {post.title}
+          </ListItem>
+        ))}
+      </List>
+      {newPost}
+    </div>
+  );
+};
 
 Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   posts: PropTypes.array,
-  users: PropTypes.array,
+  currentUser: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   posts: getAll(state),
-  users: getUsers(state),
+  currentUser: currentUser(state),
 });
 
 // const mapDispatchToProps = dispatch => ({

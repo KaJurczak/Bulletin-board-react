@@ -43,5 +43,8 @@ export const initialState = {
       admin: false,
     },
   ],
-
+  currentUser: 
+    {
+      id: 'user1',
+    },
 };

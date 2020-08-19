@@ -4,21 +4,19 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
-import { getPost, getUsers } from '../../../redux/postsRedux';
+import { getPost, currentUser } from '../../../redux/postsRedux';
 
 import styles from './Post.module.scss';
 import { Link } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
-const Component = ({className, post, users}) => {
+const Component = ({className, post, currentUser }) => {
 
-  const editPost = users.map(user => 
-    user.id === post.userId ?
-      (<Button key={user.id} component={Link} to={`/post/:id/edit`} variant="outlined" color="primary" >
-        Edit poster
-      </Button>)
-      : ''
-  );
+  const editPost = currentUser === post.userId ?
+    (<Button component={Link} to={`/post/:id/edit`} variant="outlined" color="primary" >
+      Edit poster
+    </Button>)
+    : '' ;
 
   return(
     <div className={clsx(className, styles.root)}>
@@ -40,12 +38,12 @@ Component.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   post: PropTypes.object,
-  users: PropTypes.array,
+  currentUser: PropTypes.string,
 };
 
 const mapStateToProps = (state, props) => ({
   post: getPost(state, props.match.params.id),
-  users: getUsers(state),
+  currentUser: currentUser(state),
 });
 
 // const mapDispatchToProps = dispatch => ({
