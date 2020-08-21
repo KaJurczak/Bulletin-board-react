@@ -6,41 +6,43 @@ import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { getAll, currentUser, getUsers } from '../../../redux/postsRedux';
 
-import styles from './Header.module.scss';
+import styles from './UserPosts.module.scss';
+
 import { Link } from 'react-router-dom';
-import { Button } from '@material-ui/core';
+import { Button, ListItem, List } from '@material-ui/core';
 
 
-const Component = ({className, children, posts, currentUser, getUsers}) => {
+const Component = ({className, posts, currentUser, getUsers}) => {
 
   const checkUser = () => getUsers.filter(user => user.id===currentUser);
 
   const newPost = (checkUser().length) ?
-    (
-      <div className={clsx(styles.root)}>
-        <Button component={Link} to={`/post/userPosts`} variant="outlined" color="primary" >
-          Your posts
-        </Button>
-        <Button component={Link} to={`/`} variant="outlined" color="primary" >
-          LogOut
-        </Button>
-      </div>
-    )
-    : 
-    (
-      <Button component={Link} to={`https://google.com`} variant="outlined" color="primary" >
-        LogIn
-      </Button>
-    ) ;
+    (<Button component={Link} to={`/post/add`} variant="outlined" color="primary" >
+      Add new post
+    </Button>)
+    : '' ;
+  
+  console.log();
 
   return(
     <div className={clsx(className, styles.root)}>
+      <List>
+        {posts.map(post => {
+          console.log(post.userId);
+          console.log(currentUser);
+          if(post.userId===currentUser)return(
+            <ListItem key={post.id} className={styles.root} component={Link} to={`/post/${post.id}`} >
+              {post.title}
+            </ListItem>
+          );}
+        )}
+      </List>
       {newPost}
     </div>
   );
 };
+
 Component.propTypes = {
-  children: PropTypes.node,
   className: PropTypes.string,
   posts: PropTypes.array,
   currentUser: PropTypes.string,
@@ -60,7 +62,7 @@ const mapStateToProps = state => ({
 const Container = connect(mapStateToProps)(Component);
 
 export {
-  // Component as Header,
-  Container as Header,
-  Component as HeaderComponent,
+  // Component as UserPosts,
+  Container as UserPosts,
+  Component as UserPostsComponent,
 };

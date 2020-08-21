@@ -40,7 +40,7 @@ export const initialState = {
     {
       id: 'user3',
       logged: true,
-      admin: false,
+      admin: true,
     },
   ],
   currentUser: 
