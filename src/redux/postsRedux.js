@@ -60,6 +60,22 @@ export const updateThisPost = (id, newPost) => {
   };
 };
 
+export const addNewPost = (newPost) => {
+  return (dispatch, getState) => {
+    dispatch(fetchStarted());
+
+    Axios
+      .post('http://localhost:8000/api/posts', newPost)
+      .then(res => {
+        dispatch(fetchSuccess(newPost));
+      })
+      .catch(err => {
+        dispatch(fetchError(err.message || true));
+      });
+  };
+};
+
+
 /* reducer */
 export const reducer = (statePart = [], action = {}) => {
   switch (action.type) {

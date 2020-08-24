@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
-import { currentUser, addPost, getUsers } from '../../../redux/postsRedux';
+import { currentUser, addPost, getUsers, addNewPost } from '../../../redux/postsRedux';
 
 import styles from './PostAdd.module.scss';
 import { Button } from '@material-ui/core';
@@ -17,37 +17,45 @@ import datePicker from 'date-and-time';
 
 class Component extends React.Component {
   state = {
-    id: shortid.generate(),
-    title: '',
-    content: '',
-    email: '',
-    status: 'published',
-    photo: '',
-    price: '',
-    userId: this.props.currentUser,
+    data: {
+      id: shortid.generate(),
+      title: '',
+      content: '',
+      email: '',
+      status: 'published',
+      photo: '',
+      price: '',
+      userId: this.props.currentUser,
+    },
   };
 
   componentDidMount(){
     const today = new Date();
-    this.setState({ dateOfPublication: datePicker.format(today, 'DD.MM.YYYY') });
+    this.setState({data: {...this.state.data, dateOfPublication: datePicker.format(today, 'DD.MM.YYYY') }});
   }
 
   
-  handleChange = (event, name) => {
+  changeInput = (event, name) => {
     event.preventDefault();
+    const { data } = this.state;
     this.setState({
-      [name]: event.target.value,
-    });
+      data: {...data, [name]: event.target.value,
+      }});
   };
 
-  handleSubmit = (event) => {
+  handleSubmit (event) {
     event.preventDefault();
-    this.props.addPost(this.state);
+
+    const { data } = this.state;
+    const { addNewPost, addPost } = this.props;
+    addNewPost(data);
+
+    addPost(data);
     alert('You added post');
   };
   
   render(){
-    const { title, price, content, email, status } = this.state;
+    const { title, price, content, email, status } = this.state.data;
     const {className} = this.props;
 
     const titleLenght = {
@@ -70,7 +78,7 @@ class Component extends React.Component {
             required
             inputProps={titleLenght}
             value={title}
-            onChange={e => this.handleChange(e, 'title')}
+            onChange={e => this.changeInput(e, 'title')}
           /><br />
           <TextField
             id="standard-full-width"
@@ -79,7 +87,7 @@ class Component extends React.Component {
             fullWidth
             inputProps={contentLenght}
             value={content}
-            onChange={e => this.handleChange(e, 'content')}
+            onChange={e => this.changeInput(e, 'content')}
           /><br />
           <TextField 
             id="standard-basic" 
@@ -87,7 +95,7 @@ class Component extends React.Component {
             required 
             type="email"
             value={email}
-            onChange={e => this.handleChange(e, 'email')}
+            onChange={e => this.changeInput(e, 'email')}
           /><br />
           <TextField 
             id="standard-basic" 
@@ -95,7 +103,7 @@ class Component extends React.Component {
             required
             type="number"
             value={price}
-            onChange={e => this.handleChange(e, 'price')}
+            onChange={e => this.changeInput(e, 'price')}
           /><br />
           <Button 
             variant="outlined"  
@@ -106,7 +114,7 @@ class Component extends React.Component {
               type="file" 
               accept="image/*" 
               style={{ display: 'none' }}  
-              onChange={e => this.handleChange(e, 'image')} 
+              onChange={e => this.changeInput(e, 'image')} 
             />
           </Button><br />
           <InputLabel id="demo-simple-select-label" >Status</InputLabel>
@@ -114,7 +122,7 @@ class Component extends React.Component {
             labelId="post-status-label"
             value={status}
             id="post-status-select"
-            onChange={e => this.handleChange(e, 'status')}
+            onChange={e => this.changeInput(e, 'status')}
 
           >
             <MenuItem value={'draft'}>draft</MenuItem>
@@ -146,6 +154,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   addPost: post => dispatch(addPost(post)),
+  addNewPost: newPost => dispatch(addNewPost(newPost)),
 });
 
 const Container = connect(mapStateToProps, mapDispatchToProps)(Component);
