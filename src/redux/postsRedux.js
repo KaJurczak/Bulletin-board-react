@@ -1,7 +1,7 @@
 import Axios from 'axios';
 
 /* selectors */
-export const getAll = ({posts}) => posts.data.filter(item => item.status === 'published');
+export const getAll = ({posts}) => posts.data;
 export const getPost = ({posts}, postID) => {
   const post = posts.data.filter(post => post.id === parseInt(postID));
   return post[0];
@@ -43,6 +43,22 @@ export const fetchPublished = () => {
   };
 };
 
+export const updateThisPost = (id, newPost) => {
+  return (dispatch, getState) => {
+    dispatch(fetchStarted());
+    console.log('fetch started');
+    Axios
+      .put(`http://localhost:8000/api/posts/${id}`, newPost)
+      .then(res => {
+        console.log('succes');
+        dispatch(fetchSuccess(res.data));
+      })
+      .catch(err => {
+        console.log('error');
+        dispatch(fetchError(err.message || true));
+      });
+  };
+};
 
 /* reducer */
 export const reducer = (statePart = [], action = {}) => {
@@ -88,7 +104,7 @@ export const reducer = (statePart = [], action = {}) => {
       return {
         ...statePart,
         data: statePart.data.map((post) => {
-          return post.id === action.payload.id ? action.payload : post;
+          return post._id === action.payload._id ? action.payload : post;
         }),
       };
     }
