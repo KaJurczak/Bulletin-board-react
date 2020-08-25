@@ -31,29 +31,27 @@ router.get('/posts/:id', async (req, res) => {
 
 router.post('/posts/add', async (req, res) => {
   try {
-    const newPost = new Post({ ...req.body });
-    await newPost.save();
-    res.json(newPost);
+    const { _id, title, content, dateOfPublication, updateDate, email, status, photo, price, phone, location } = req.body;
+
+    if(title && content && dateOfPublication && updateDate && email && status) {
+      if(title.length >= 10 && content.length >= 20){
+        // let isHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/i);
+        let isEmail = RegExp.prototype.test.bind(/^\S+@\S+\.\S+$/);
+        if(isEmail(email) === true){
+          console.log('req.body', req.body);
+          const newPost = new Post({ ...req.body });
+          if(!newPost) res.status(404).json({ post: 'Not found' });
+          else {
+            await newPost.save();
+            res.json(newPost);
+          }
+        }
+      }
+    }
   } catch (err) {
     res.status(500).json({ messaage: err });
   }
 });
-
-// router.post('/posts', async (req, res) => {
-//   try {
-//     const { _id, title, content, dateOfPublication, updateDate, email, status, photo, price, phone, location } = req.body;
-
-//     const changePost = new Post({ _id: _id, title: title, content: content, dateOfPublication: dateOfPublication, updateDate: updateDate, email: email, status: status, photo: photo, price: price, phone: phone, location: location, 
-//     });
-//     await changePost.save();
-//     res.json({ message: 'You change post'});
-//     if(!changePost) res.status(404).json({ post: 'Not found' });
-//     else {res.json('changePost');}
-//   }
-//   catch(err) {
-//     res.status(500).json(err);
-//   }
-// });
 
 router.put('/posts/:id', async (req, res) => {
   try {

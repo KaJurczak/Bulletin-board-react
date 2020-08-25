@@ -17,15 +17,15 @@ import datePicker from 'date-and-time';
 class Component extends React.Component {
   state = {
     data: {
-      _id: this.props.posts.filter(item => item._id == this.props.match.params.id )[0]._id,
-      title: this.props.posts.filter(item => item._id == this.props.match.params.id )[0].title,
-      content: this.props.posts.filter(item => item._id == this.props.match.params.id )[0].content,
-      dateOfPublication: this.props.posts.filter(item => item._id == this.props.match.params.id )[0].dateOfPublication,
-      email: this.props.posts.filter(item => item._id == this.props.match.params.id )[0].email,
-      status: this.props.posts.filter(item => item._id == this.props.match.params.id )[0].status,
-      photo: this.props.posts.filter(item => item._id == this.props.match.params.id )[0].photo,
-      price: this.props.posts.filter(item => item._id == this.props.match.params.id )[0].price,
-      userId: this.props.posts.filter(item => item._id == this.props.match.params.id )[0].userId,
+      _id: this.props.posts.filter(item => item._id === this.props.match.params.id )[0]._id,
+      title: this.props.posts.filter(item => item._id === this.props.match.params.id )[0].title,
+      content: this.props.posts.filter(item => item._id === this.props.match.params.id )[0].content,
+      dateOfPublication: this.props.posts.filter(item => item._id === this.props.match.params.id )[0].dateOfPublication,
+      email: this.props.posts.filter(item => item._id === this.props.match.params.id )[0].email,
+      status: this.props.posts.filter(item => item._id === this.props.match.params.id )[0].status,
+      photo: this.props.posts.filter(item => item._id === this.props.match.params.id )[0].photo,
+      price: this.props.posts.filter(item => item._id === this.props.match.params.id )[0].price,
+      userId: this.props.posts.filter(item => item._id === this.props.match.params.id )[0].userId,
     },
   };
 

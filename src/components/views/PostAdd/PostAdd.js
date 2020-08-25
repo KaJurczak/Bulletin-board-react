@@ -18,20 +18,22 @@ import datePicker from 'date-and-time';
 class Component extends React.Component {
   state = {
     data: {
-      id: shortid.generate(),
+      _id: shortid.generate(),
       title: '',
       content: '',
       email: '',
       status: 'published',
       photo: '',
       price: '',
+      phone: '',
+      location: '',
       userId: this.props.currentUser,
     },
   };
 
   componentDidMount(){
     const today = new Date();
-    this.setState({data: {...this.state.data, dateOfPublication: datePicker.format(today, 'DD.MM.YYYY') }});
+    this.setState({data: {...this.state.data, dateOfPublication: datePicker.format(today, 'DD.MM.YYYY'), updateDate: datePicker.format(today, 'DD.MM.YYYY') }});
   }
 
   
