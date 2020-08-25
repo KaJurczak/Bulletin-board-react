@@ -41,7 +41,6 @@ router.post('/posts', async (req, res) => {
         // let isHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/i);
         // let isEmail = RegExp.prototype.test.bind(/^\S+@\S+\.\S+$/);
         if(title){
-          // console.log(req.body);
           const newPost = new Post({ ...req.body });
           // console.log('newPost at router.post', newPost);
 

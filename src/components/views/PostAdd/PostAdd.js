@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
-import { currentUser, addPost, getUsers, addNewPost } from '../../../redux/postsRedux';
+import { currentUser, getUsers, addNewPost } from '../../../redux/postsRedux';
 
 import styles from './PostAdd.module.scss';
 import { Button } from '@material-ui/core';
@@ -28,6 +28,8 @@ class Component extends React.Component {
       phone: '',
       location: '',
       userId: this.props.currentUser,
+      dateOfPublication: '',
+      updateDate: '',
     },
   };
 
@@ -49,10 +51,10 @@ class Component extends React.Component {
     event.preventDefault();
 
     const { data } = this.state;
-    const { addNewPost, addPost } = this.props;
+    const { addNewPost } = this.props;
     addNewPost(data);
 
-    addPost(data);
+    // addPost(data);
     alert('You added post');
   }
   
@@ -155,7 +157,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addPost: post => dispatch(addPost(post)),
+  // addPost: post => dispatch(addPost(post)),
   addNewPost: newPost => dispatch(addNewPost(newPost)),
 });
 

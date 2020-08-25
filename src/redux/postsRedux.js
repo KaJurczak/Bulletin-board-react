@@ -69,7 +69,7 @@ export const addNewPost = (newPost) => {
       .post(`http://localhost:8000/api/posts`, newPost)
       .then(res => {
         console.log('succes at addNewPost');
-        dispatch(fetchSuccess(res.data));
+        dispatch(addPost(res.data));
         console.log('newPost', newPost, 'res.data', res.data);
       })
       .catch(err => {
