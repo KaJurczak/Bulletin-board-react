@@ -62,14 +62,20 @@ export const updateThisPost = (id, newPost) => {
 
 export const addNewPost = (newPost) => {
   return (dispatch, getState) => {
+    // console.log('before fetchStart');
+    // console.log(newPost);
     dispatch(fetchStarted());
+    // console.log('after fetchStart');
 
     Axios
       .post('http://localhost:8000/api/posts', newPost)
       .then(res => {
-        dispatch(fetchSuccess(newPost));
+        // console.log('succes');
+        dispatch(fetchSuccess(res.data));
+        // console.log('newPost', newPost, 'res.data', res.data);
       })
       .catch(err => {
+        // console.log('error');
         dispatch(fetchError(err.message || true));
       });
   };

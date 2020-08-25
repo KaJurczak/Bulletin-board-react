@@ -54,7 +54,7 @@ class Component extends React.Component {
 
     addPost(data);
     alert('You added post');
-  };
+  }
   
   render(){
     const { title, price, content, email, status } = this.state.data;
