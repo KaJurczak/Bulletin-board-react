@@ -62,20 +62,18 @@ export const updateThisPost = (id, newPost) => {
 
 export const addNewPost = (newPost) => {
   return (dispatch, getState) => {
-    // console.log('before fetchStart');
-    // console.log(newPost);
     dispatch(fetchStarted());
-    // console.log('after fetchStart');
-
+    console.log('fetchStart at addNewPost');
+    console.log(newPost.id);
     Axios
-      .post('http://localhost:8000/api/posts', newPost)
+      .post(`http://localhost:8000/api/posts`, newPost)
       .then(res => {
-        // console.log('succes');
+        console.log('succes at addNewPost');
         dispatch(fetchSuccess(res.data));
-        // console.log('newPost', newPost, 'res.data', res.data);
+        console.log('newPost', newPost, 'res.data', res.data);
       })
       .catch(err => {
-        // console.log('error');
+        console.log('error at addNewPost');
         dispatch(fetchError(err.message || true));
       });
   };

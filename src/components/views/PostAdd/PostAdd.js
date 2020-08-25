@@ -18,7 +18,7 @@ import datePicker from 'date-and-time';
 class Component extends React.Component {
   state = {
     data: {
-      _id: shortid.generate(),
+      id: shortid.generate(),
       title: '',
       content: '',
       email: '',

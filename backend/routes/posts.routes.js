@@ -30,28 +30,32 @@ router.get('/posts/:id', async (req, res) => {
 });
 
 router.post('/posts', async (req, res) => {
+  // console.log('start router.post');
   try {
     const { _id, title, content, dateOfPublication, updateDate, email, status, photo, price, phone, location } = req.body;
-
-    if(title && content && dateOfPublication && updateDate && email && status) {
+    // console.log('try router.post');
+    if(title && content && dateOfPublication && updateDate && status) {
+      // console.log('if router.post');
       if(title.length >= 10 && content.length >= 20){
+        // console.log('ifNo2 router.post');
         // let isHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/i);
-        let isEmail = RegExp.prototype.test.bind(/^\S+@\S+\.\S+$/);
-        if(isEmail(email) === true){
+        // let isEmail = RegExp.prototype.test.bind(/^\S+@\S+\.\S+$/);
+        if(title){
+          // console.log(req.body);
           const newPost = new Post({ ...req.body });
+          // console.log('newPost at router.post', newPost);
+
           if(!newPost) res.status(404).json({ post: 'Not found' });
           else {
-            console.log('newPost', newPost);
-
             // await newPost.save();
-            // console.log('newPost', newPost);
-
+            console.log('succes at router.post, newPost:', newPost);
             res.json(newPost);
           }
         }
       }
     }
   } catch (err) {
+    console.log('error at router.post');
     res.status(500).json({ messaage: err });
   }
 });
@@ -63,11 +67,14 @@ router.put('/posts/:id', async (req, res) => {
       .findById(req.params.id);
     if(!result) res.status(404).json({message: 'Not found...'});
     else{
+      // console.log('result', result);
       await Post.updateOne({ _id: req.params.id}, {$set: {title: title, content: content, email: email, status: status, photo: photo, price: price, phone: phone, location: location,
       }});
-      await Post.save();
-      console.log('success at put post', Post);
-      res.json({message: 'Post updated'});
+      const newResult = await Post
+        .findById(req.params.id);
+      await newResult.save();
+      // console.log('success at put post', newResult);
+      res.json({newResult});
     }
   }
   catch(err) {
