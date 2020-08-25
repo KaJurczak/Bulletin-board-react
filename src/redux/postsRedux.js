@@ -46,15 +46,15 @@ export const fetchPublished = () => {
 export const updateThisPost = (id, newPost) => {
   return (dispatch, getState) => {
     dispatch(fetchStarted());
-    console.log('fetch started');
+    // console.log('fetch started');
     Axios
       .put(`http://localhost:8000/api/posts/${id}`, newPost)
       .then(res => {
-        console.log('succes');
+        // console.log('succes');
         dispatch(fetchSuccess(res.data));
       })
       .catch(err => {
-        console.log('error');
+        // console.log('error');
         dispatch(fetchError(err.message || true));
       });
   };
@@ -63,17 +63,16 @@ export const updateThisPost = (id, newPost) => {
 export const addNewPost = (newPost) => {
   return (dispatch, getState) => {
     dispatch(fetchStarted());
-    console.log('fetchStart at addNewPost');
-    console.log(newPost.id);
+    // console.log('fetchStart at addNewPost');
     Axios
       .post(`http://localhost:8000/api/posts`, newPost)
       .then(res => {
-        console.log('succes at addNewPost');
+        // console.log('succes at addNewPost');
         dispatch(addPost(res.data));
-        console.log('newPost', newPost, 'res.data', res.data);
+        // console.log('newPost', newPost, 'res.data', res.data);
       })
       .catch(err => {
-        console.log('error at addNewPost');
+        // console.log('error at addNewPost');
         dispatch(fetchError(err.message || true));
       });
   };

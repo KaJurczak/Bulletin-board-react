@@ -34,28 +34,36 @@ router.post('/posts', async (req, res) => {
   try {
     const { _id, title, content, dateOfPublication, updateDate, email, status, photo, price, phone, location } = req.body;
     // console.log('try router.post');
-    if(title && content && dateOfPublication && updateDate && status) {
+    if(title && content && dateOfPublication && updateDate && status && email) {
       // console.log('if router.post');
       if(title.length >= 10 && content.length >= 20){
         // console.log('ifNo2 router.post');
         // let isHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/i);
-        // let isEmail = RegExp.prototype.test.bind(/^\S+@\S+\.\S+$/);
-        if(title){
+        let isEmail = RegExp.prototype.test.bind(/^\S+@\S+\.\S+$/);
+        if(isEmail(email) === true){
           const newPost = new Post({ ...req.body });
           // console.log('newPost at router.post', newPost);
-
           if(!newPost) res.status(404).json({ post: 'Not found' });
           else {
-            // await newPost.save();
-            console.log('succes at router.post, newPost:', newPost);
+            await newPost.save();
+            // console.log('succes at router.post, newPost:', newPost);
             res.json(newPost);
           }
+        } 
+        else {
+          throw new Error('Write correct email adress');
         }
+      } 
+      else {
+        throw new Error('Your title or content is too short');
       }
+    } 
+    else {
+      throw new Error('You need to complete title, content, status, email ');
     }
   } catch (err) {
-    console.log('error at router.post');
-    res.status(500).json({ messaage: err });
+    console.log(err.message);
+    res.status(500).json(err);
   }
 });
 

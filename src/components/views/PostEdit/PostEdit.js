@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import { connect } from 'react-redux';
-import { currentUser, editPost, getUsers, getAll, updateThisPost } from '../../../redux/postsRedux';
+import { currentUser, editPost, getUsers,  getAll, updateThisPost } from '../../../redux/postsRedux';
 
 import styles from './PostEdit.module.scss';
 import { Button } from '@material-ui/core';
@@ -182,7 +182,7 @@ Component.propTypes = {
   editPost: PropTypes.func,
   getUsers: PropTypes.array,
   currentUser: PropTypes.string,
-  post: PropTypes.object,
+  posts: PropTypes.array,
 };
 
 const mapStateToProps = (state, props) => ({
